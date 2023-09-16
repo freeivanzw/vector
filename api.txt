@@ -1,0 +1,2 @@
+addSvg: POST /api/vector
+    form-data key:svg  input type-file
