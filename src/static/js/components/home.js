@@ -1,3 +1,4 @@
+
 const uploadForm = document.querySelector('#upload-form');
 
 uploadForm.addEventListener('submit', (event) => {
@@ -8,11 +9,13 @@ uploadForm.addEventListener('submit', (event) => {
   const svgFile = uploadForm.querySelector('#svg-file').files[0];
 
   if (!svgFile) {
-    console.log('нема файлу');
+    uploadForm.classList.add('error');
+    return;
   }
 
   if (svgFile.name.split('.')[1] !== 'svg') {
-    console.log('не svg');
+    uploadForm.classList.add('error');
+    return;
   }
 
   formData.append('svg', svgFile);
@@ -23,7 +26,23 @@ uploadForm.addEventListener('submit', (event) => {
   }).then((res) => {
     return res.json();
   }).then((data) => {
-    console.log(data);
+    if (!data.success) {
+      return uploadForm.classList.add('error');
+    }
+    uploadForm.classList.remove('error');
+
+    const svgList = document.querySelector('.svg_list');
+    const svgTile = document.createElement('div');
+    svgTile.innerHTML = `<div data-file-id="${data.svgData.id}">
+        <img src="${data.svgData.path}" width="100" height="100">
+         <a href="/api/vector/${data.svgData.id}">show</a>
+        <a href="#" class="remove_file">remove</a>
+    </div>`;
+
+    const firsChild = svgList.firstElementChild;
+
+    svgList.insertBefore(svgTile, firsChild);
+
   });
 
 });

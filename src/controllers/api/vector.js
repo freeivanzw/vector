@@ -11,6 +11,10 @@ class VectorController {
         throw new BadRequestError('svg empty');
       }
 
+      if (req.files.svg.name.split('.')[1] !== 'svg') {
+        throw new BadRequestError('file type not svg');
+      }
+
       const fileData = req.files.svg.data;
 
       const uuidFile = uuidv4();

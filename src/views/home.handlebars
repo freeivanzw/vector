@@ -2,12 +2,15 @@
     <input type="file" name="svg-file" id="svg-file">
     <button type="submit">upload</button>
 </form>
-{{#each filesData as |file|}}
-    <div data-file-id="{{file.id}}">
-        <img src="{{file.path}}" width="100" height="100">
-        <a href="#" class="remove_file">remove</a>
-    </div>
-{{/each}}
+<div class="svg_list">
+    {{#each filesData as |file|}}
+        <div data-file-id="{{file.id}}">
+            <img src="{{file.path}}" width="100" height="100">
+            <a href="/api/vector/{{file.id}}">show</a>
+            <a href="#" class="remove_file">remove</a>
+        </div>
+    {{/each}}
+</div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         window.host = 'http://{{host}}';

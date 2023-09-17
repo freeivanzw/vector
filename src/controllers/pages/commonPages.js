@@ -1,6 +1,7 @@
 const PagesController = require('./pagesController');
 const fs = require('fs');
-const { NotFoundError } = require('../../validators/customError');
+const fsPromises = fs.promises;
+const { NotFoundError, BadRequestError } = require('../../validators/customError');
 const path = require('path');
 
 class CommonPages extends PagesController {
@@ -36,6 +37,32 @@ class CommonPages extends PagesController {
       });
     } catch (error) {
       next(error);
+    }
+  };
+  detailsPage = async (req, res, next) => {
+    try {
+      if (!req.params?.id) {
+        throw new BadRequestError('id not available');
+      }
+
+      const vectorId = req.params.id;
+
+      const fileName = `${vectorId}.svg`;
+      const filePath = path.join(__dirname, '..', '..', 'static', 'images', 'svg', fileName);
+
+      await fsPromises.access(filePath);
+
+      const fileUrl = `/images/svg/${fileName}`;
+
+
+      const tempData = this.createTempData({
+        id: vectorId,
+        svgUrl: fileUrl,
+      });
+
+      return res.render('details', tempData);
+    } catch (err) {
+      next(err);
     }
   };
 }
