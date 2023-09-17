@@ -27,3 +27,24 @@ uploadForm.addEventListener('submit', (event) => {
   });
 
 });
+
+const removeBtn = document.querySelectorAll('.remove_file');
+
+removeBtn.forEach((btn) => {
+  btn.addEventListener('click', function (e) {
+    e.preventDefault();
+
+    const svgElem = this.parentNode;
+    const svgId = svgElem.dataset.fileId;
+
+    fetch(window.host + `/api/vector?id=${svgId}`, {
+      method: 'delete',
+    }).then((res) => {
+      return res.json();
+    }).then((data) => {
+      if (data.success) {
+        svgElem.remove();
+      }
+    });
+  });
+});

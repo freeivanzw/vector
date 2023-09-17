@@ -1,2 +1,6 @@
 addSvg: POST /api/vector
     form-data key:svg  input type-file
+
+removeSvg: DELETE /api/vector?id=1234
+get by id: GET /api/vector/:id
+get all: GET /api/vector

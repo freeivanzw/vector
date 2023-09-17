@@ -6,6 +6,8 @@ const apiRoutes = Router();
 
 apiRoutes.post('/vector', VectorController.add);
 apiRoutes.delete('/vector', VectorController.remove);
+apiRoutes.get('/vector/:id', VectorController.getById);
+apiRoutes.get('/vector', VectorController.getAll);
 
 const pagesRoutes = Router();
 
